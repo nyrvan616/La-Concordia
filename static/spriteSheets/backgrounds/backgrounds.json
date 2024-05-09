@@ -1,0 +1,135 @@
+{
+  "frames": {
+    "backgrounds/River/PNG/background.png": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 256,
+        "h": 320
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 320
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 320
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "backgrounds/Desert/backgrounds/desert-backgorund.png": {
+      "frame": {
+        "x": 2,
+        "y": 326,
+        "w": 256,
+        "h": 272
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 272
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 272
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "backgrounds/Desert/backgrounds/clouds-transparent.png": {
+      "frame": {
+        "x": 2,
+        "y": 602,
+        "w": 256,
+        "h": 103
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 103
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 103
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "backgrounds/Desert/backgrounds/clouds.png": {
+      "frame": {
+        "x": 2,
+        "y": 709,
+        "w": 256,
+        "h": 103
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 103
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 103
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "backgrounds/River/PNG/props.png": {
+      "frame": {
+        "x": 2,
+        "y": 816,
+        "w": 111,
+        "h": 53
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 111,
+        "h": 53
+      },
+      "sourceSize": {
+        "w": 111,
+        "h": 53
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "backgrounds.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 260,
+      "h": 871
+    },
+    "scale": 1
+  }
+}
