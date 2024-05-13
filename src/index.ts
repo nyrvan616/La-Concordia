@@ -1,8 +1,9 @@
 import { Application, Loader, Ticker } from 'pixi.js';
 import { assets } from './assets';
-import { SceneTest } from './scenes/SceneTest';
+//import { SceneTest } from './scenes/SceneTest';
 import { Group } from 'tweedle.js';
 import { Keyboard } from './utils/Keyboard';
+import { MenuScene } from './scenes/MenuScene';
 
 // import { ScenePlatform } from './scenes/ScenePlatform';
 
@@ -52,7 +53,8 @@ Loader.shared.add(assets);
 
 Loader.shared.onComplete.add(() => {
 
-	const myScene = new SceneTest();
+	//const myScene = new SceneTest();
+	const myScene = new MenuScene();
 
 	app.stage.addChild(myScene);
 

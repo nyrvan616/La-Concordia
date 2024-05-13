@@ -10,19 +10,6 @@ export class StateAnimation extends Container
         this.addChild(this.animContainer);
     }
 
-    public playState(stateName: string, restartAnim:boolean) {
-        this.animContainer.removeChildren();
-        const currentState = this.states.get(stateName);
-        if (currentState) {
-            this.animContainer.addChild(currentState);
-            if (restartAnim) {
-                currentState.gotoAndPlay(0);
-            }
-        } else {
-            console.error(`State ${stateName} not found`);
-        }
-    }
-
     public addState(stateName: string, frames: Texture[] | string[], animationSpeed: number, loop: boolean, width?: number, height?: number, anchor?: {x: number, y: number}) {
         const texArray:Texture[] = [];
         for (const tex of frames) {
@@ -48,6 +35,21 @@ export class StateAnimation extends Container
         };
         this.states.set(stateName, tempAnim);
     }
+
+    public playState(stateName: string, restartAnim:boolean) {
+        this.animContainer.removeChildren();
+        const currentState = this.states.get(stateName);
+        if (currentState) {
+            this.animContainer.addChild(currentState);
+            if (restartAnim) {
+                currentState.gotoAndPlay(0);
+            }
+        } else {
+            console.error(`State ${stateName} not found`);
+        }
+    }
+
+    
 
     public update (frames:number){
         for (const state of this.states.values()) {
