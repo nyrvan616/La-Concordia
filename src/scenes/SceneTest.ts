@@ -1,11 +1,11 @@
 import { Container, Texture, TilingSprite } from "pixi.js";
-import { IUpdateable } from "../utils/IUpdateable";
-//import { StateAnimation } from "../game/StateAnimation";
+//import { IUpdateable } from "../utils/IUpdateable";
 import { PlayerSpaceShip } from "../game/PlayerSpaceShip";
-import { HEIGHT } from "..";
 import { EnemySpaceShip } from "../game/EnemySpaceShip";
+import { SceneManager } from "../utils/SceneManager";
+import { SceneBase } from "../utils/SceneBase";
 
-export class SceneTest extends Container implements IUpdateable {
+export class SceneTest extends SceneBase {
     private world: Container;
     private background: TilingSprite;
     private playerSpaceShip: PlayerSpaceShip;
@@ -34,7 +34,7 @@ export class SceneTest extends Container implements IUpdateable {
         this.playerSpaceShip.update(deltaTime);
         this.enemySpaceShip.update(deltaTime);
 
-        this.world.position.y = -this.playerSpaceShip.position.y * this.worldTransform.a + HEIGHT / 1.15;
+        this.world.position.y = -this.playerSpaceShip.position.y * this.worldTransform.a + SceneManager.HEIGHT / 1.15;
         this.background.tilePosition.y = this.world.position.y;
 
     }
