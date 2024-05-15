@@ -15,16 +15,16 @@ export class SceneTest extends SceneBase {
         super();
         this.world = new Container();
 
-        this.background = new TilingSprite(Texture.from('backgrounds/River/PNG/background.png'), 1920, 1080);
-        this.background.tileScale.set(8, 8);
+        this.background = new TilingSprite(Texture.from('backgrounds/River/PNG/background.png'), SceneManager.WIDTH, SceneManager.HEIGHT);
+        this.background.tileScale.set(4, 4);
         this.addChild(this.background);
 
         this.playerSpaceShip = new PlayerSpaceShip();
-        this.playerSpaceShip.position.set(1000, 1000);
+        this.playerSpaceShip.position.set(SceneManager.WIDTH/2, 1000);
         this.world.addChild(this.playerSpaceShip);
 
         this.enemySpaceShip = new EnemySpaceShip();
-        this.enemySpaceShip.position.set(1000, -1000);
+        this.enemySpaceShip.position.set(SceneManager.WIDTH/2, -1000);
         this.world.addChild(this.enemySpaceShip);
 
         this.addChild(this.world);

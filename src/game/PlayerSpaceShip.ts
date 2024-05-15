@@ -2,6 +2,7 @@ import { Graphics } from "pixi.js";
 import { Keyboard } from "../utils/Keyboard";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
+import { Projectile } from "./Projectile";
 
 
 export class PlayerSpaceShip extends PhysicsContainer {
@@ -11,6 +12,8 @@ export class PlayerSpaceShip extends PhysicsContainer {
     private playerSpaceShip: StateAnimation;
     private playerSpaceShipEngineEffect: StateAnimation;
     private hitBox: Graphics;
+    private projectiles: Projectile[] = [];
+    private isShooting: boolean = false;
 
 
     constructor() {
@@ -42,17 +45,39 @@ export class PlayerSpaceShip extends PhysicsContainer {
         this.addChild(this.playerSpaceShipEngineEffect);
     
 
-        this.addChild(this.hitBox);
+        //this.addChild(this.hitBox);
         this.addChild(this.playerSpaceShip);
         this.playerSpaceShip.playState('idle', true);
         this.playerSpaceShipEngineEffect.playState('engineOn', true);
+
+        Keyboard.initialize();
+        Keyboard.down.on("Space", () => this.handleShoot());
+        Keyboard.up.on("Space", () => this.isShooting = false);
+    }
+
+    private handleShoot() {
+        if (!this.isShooting) {
+            this.shoot();
+            this.isShooting = true;
+        }
+    }
+
+    public shoot() {
+        
+        const projectile = new Projectile();
+        projectile.position.x = this.position.x;
+        projectile.position.y = this.position.y - PlayerSpaceShip.PLAYER_HEIGHT / 2;
+        this.parent.addChild(projectile);
+        this.projectiles.push(projectile);
     }
 
     public override update(deltaMS: number) {
-
         super.update(deltaMS / 1000);
         this.playerSpaceShip.update(deltaMS / (1000 / 60));
         this.playerSpaceShipEngineEffect.update(deltaMS / (1000 / 60));
+        for (const projectile of this.projectiles) {
+            projectile.update(deltaMS);
+        }
 
         this.speed.x = 0;
         this.speed.y = 0;
@@ -70,17 +95,15 @@ export class PlayerSpaceShip extends PhysicsContainer {
             case Keyboard.state.get("ArrowLeft"):
                 this.speed.x = -PlayerSpaceShip.MOVE_SPEED;
                 break;
-            default:
-                this.speed.x = 0;
         }
 
         if (this.speed.x !== 0 || this.speed.y !== 0) {
             this.playerSpaceShipEngineEffect.visible = true;
         } else {
-            console.log("Velocidad = 0, la animacion se detiene", this.speed);
             this.playerSpaceShipEngineEffect.visible = false;
 
         }
+    
     }
 
 }

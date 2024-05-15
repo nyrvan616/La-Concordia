@@ -14,8 +14,8 @@ export class MenuScene extends SceneBase {
             Texture.from('buttonContinueOver'),
             goToGame
         );
-        this.x = 960;
-        this.y = 540;
+        this.x = SceneManager.WIDTH/2;
+        this.y = SceneManager.HEIGHT/2;
         this.addChild(btn);
 
     
