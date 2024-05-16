@@ -1,12 +1,12 @@
 import { Rectangle } from "pixi.js";
 
 export interface IHitbox {
-    getHitbox():Rectangle;
+    getHitBox():Rectangle;
 }
 
 export function checkCollision(objA:IHitbox, objB:IHitbox):Rectangle | null {
-    const rA = objA.getHitbox();
-    const rB = objB.getHitbox();
+    const rA = objA.getHitBox();
+    const rB = objB.getHitBox();
 
     const rightMostLeft = rA.left < rB.left ? rB.left : rA.left;
     const leftMostRight = rA.right > rB.right ? rB.right : rA.right;

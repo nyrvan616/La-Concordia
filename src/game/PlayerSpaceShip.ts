@@ -1,4 +1,4 @@
-import { Graphics } from "pixi.js";
+import { Graphics, ObservablePoint, Rectangle } from "pixi.js";
 import { Keyboard } from "../utils/Keyboard";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
@@ -11,9 +11,12 @@ export class PlayerSpaceShip extends PhysicsContainer {
     private static readonly PLAYER_HEIGHT = 128;
     private playerSpaceShip: StateAnimation;
     private playerSpaceShipEngineEffect: StateAnimation;
+    private playerSpaceShipDamaged: StateAnimation;
     private hitBox: Graphics;
     private projectiles: Projectile[] = [];
     private isShooting: boolean = false;
+    public HEALTH = 100;
+    public isVulnerable: boolean = true;
 
 
     constructor() {
@@ -42,13 +45,25 @@ export class PlayerSpaceShip extends PhysicsContainer {
             'spaceShips/friendly/Nairan/Engine Effects/PNGs/Nairan - Dreadnought - Engine.png~1/7.png'
         ], 0.1, true, PlayerSpaceShip.PLAYER_WIDTH, PlayerSpaceShip.PLAYER_HEIGHT, { x: 0.5, y: 0.4 });
 
-        this.addChild(this.playerSpaceShipEngineEffect);
+        this.playerSpaceShipDamaged = new StateAnimation();
+        this.playerSpaceShipDamaged.addState('damage', [
+            'spaceShips/friendly/Nairan/Destruction/PNGs/Nairan - Dreadnought -  Destruction.png~1/13.png',
+            'spaceShips/friendly/Nairan/Destruction/PNGs/Nairan - Dreadnought -  Destruction.png~1/14.png',
+            'spaceShips/friendly/Nairan/Destruction/PNGs/Nairan - Dreadnought -  Destruction.png~1/15.png',
+            'spaceShips/friendly/Nairan/Destruction/PNGs/Nairan - Dreadnought -  Destruction.png~1/16.png',
+            'spaceShips/friendly/Nairan/Destruction/PNGs/Nairan - Dreadnought -  Destruction.png~1/17.png',
+
+        ], 0.1, true, PlayerSpaceShip.PLAYER_WIDTH, PlayerSpaceShip.PLAYER_HEIGHT, { x: 0.5, y: 0.5 });
     
 
-        //this.addChild(this.hitBox);
+        this.addChild(this.hitBox);
         this.addChild(this.playerSpaceShip);
+        this.addChild(this.playerSpaceShipDamaged);
+        this.addChild(this.playerSpaceShipEngineEffect);
         this.playerSpaceShip.playState('idle', true);
         this.playerSpaceShipEngineEffect.playState('engineOn', true);
+        this.playerSpaceShipDamaged.playState('damage', true);
+
 
         Keyboard.initialize();
         Keyboard.down.on("Space", () => this.handleShoot());
@@ -75,6 +90,7 @@ export class PlayerSpaceShip extends PhysicsContainer {
         super.update(deltaMS / 1000);
         this.playerSpaceShip.update(deltaMS / (1000 / 60));
         this.playerSpaceShipEngineEffect.update(deltaMS / (1000 / 60));
+        this.playerSpaceShipDamaged.update(deltaMS / (1000 / 60));
         for (const projectile of this.projectiles) {
             projectile.update(deltaMS);
         }
@@ -103,7 +119,39 @@ export class PlayerSpaceShip extends PhysicsContainer {
             this.playerSpaceShipEngineEffect.visible = false;
 
         }
+
+        if (this.isVulnerable == false){
+            this.playerSpaceShipDamaged.visible = true;
+        } else {
+            this.playerSpaceShipDamaged.visible = false;
+        }
+
+
     
+    }
+        public getHitBox(): Rectangle {
+        return this.hitBox.getBounds();
+        }
+
+        //ESTO NO TIENE UTILIDAD AÚN
+        public colisionDamage(overlap: Rectangle, objects: ObservablePoint<any>) {
+            if (overlap.width < overlap.height){
+                if (this.x > objects.x && this.isVulnerable == true){
+                    this.HEALTH -= 10;
+                    console.log(this.HEALTH);
+                } else if (this.x < objects.x){
+                    this.HEALTH -= 10;
+                    console.log(this.HEALTH);
+                }
+            } else {
+                if (this.y > objects.y){
+                    this.HEALTH -= 10;
+                    console.log(this.HEALTH);
+                } else if (this.y < objects.y){
+                    this.HEALTH -= 10;
+                    console.log(this.HEALTH);
+            }
+        }
     }
 
 }

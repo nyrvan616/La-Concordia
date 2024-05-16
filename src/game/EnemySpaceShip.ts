@@ -1,4 +1,4 @@
-import { Graphics } from "pixi.js";
+import { Graphics, Rectangle } from "pixi.js";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
 
@@ -40,6 +40,10 @@ export class EnemySpaceShip extends PhysicsContainer {
 
         this.speed.x = 0;
         this.speed.y = EnemySpaceShip.MOVE_SPEED;
+    }
+
+    public getHitBox(): Rectangle{
+        return this.hitBox.getBounds();
     }
 
 }

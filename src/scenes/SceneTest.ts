@@ -4,6 +4,7 @@ import { PlayerSpaceShip } from "../game/PlayerSpaceShip";
 import { EnemySpaceShip } from "../game/EnemySpaceShip";
 import { SceneManager } from "../utils/SceneManager";
 import { SceneBase } from "../utils/SceneBase";
+import { checkCollision } from "../utils/IHitbox";
 
 export class SceneTest extends SceneBase {
     private world: Container;
@@ -36,6 +37,21 @@ export class SceneTest extends SceneBase {
 
         this.world.position.y = -this.playerSpaceShip.position.y * this.worldTransform.a + SceneManager.HEIGHT / 1.15;
         this.background.tilePosition.y = this.world.position.y;
+
+        const colision = checkCollision(this.playerSpaceShip, this.enemySpaceShip);
+        if(colision){
+            console.log("colision");
+            //el playerSpaceShip pierde vida
+            this.playerSpaceShip.HEALTH -= 10;
+            //el playerSpaceShip se vuelve invulnerable por 3 segundos
+            this.playerSpaceShip.isVulnerable = false;
+            setTimeout(() => {
+                console.log("vulnerable");
+                this.playerSpaceShip.isVulnerable = true;
+            }, 3000);
+
+
+        }
 
     }
 
