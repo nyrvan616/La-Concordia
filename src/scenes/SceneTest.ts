@@ -11,13 +11,14 @@ export class SceneTest extends SceneBase {
     private background: TilingSprite;
     private playerSpaceShip: PlayerSpaceShip;
     private enemySpaceShip: EnemySpaceShip;
+    private timePassed: number = 0;
 
     constructor() {
         super();
         this.world = new Container();
 
         this.background = new TilingSprite(Texture.from('backgrounds/River/PNG/background.png'), SceneManager.WIDTH, SceneManager.HEIGHT);
-        this.background.tileScale.set(4, 4);
+        this.background.tileScale.set(3.9, 3.52);
         this.addChild(this.background);
 
         this.playerSpaceShip = new PlayerSpaceShip();
@@ -32,6 +33,10 @@ export class SceneTest extends SceneBase {
     }
     
     update(deltaTime: number, _deltaFrame?: number): void {
+        this.timePassed += deltaTime;
+
+        if (deltaTime)
+
         this.playerSpaceShip.update(deltaTime);
         this.enemySpaceShip.update(deltaTime);
 
@@ -43,14 +48,20 @@ export class SceneTest extends SceneBase {
             console.log("colision");
             //el playerSpaceShip pierde vida
             this.playerSpaceShip.HEALTH -= 10;
+            this.enemySpaceShip.HEALTH -= 10;
+            
             //el playerSpaceShip se vuelve invulnerable por 3 segundos
             this.playerSpaceShip.isVulnerable = false;
+            this.playerSpaceShip.selectAnimation('invulnerable',  true);
+            this.enemySpaceShip.selectAnimation('damage', true);
+
+            //wait3seconds
             setTimeout(() => {
-                console.log("vulnerable");
                 this.playerSpaceShip.isVulnerable = true;
+                this.playerSpaceShip.selectAnimation('idle',  true);
+                console.log(this.playerSpaceShip.HEALTH);
+                this.enemySpaceShip.selectAnimation('idle',  true);
             }, 3000);
-
-
         }
 
     }

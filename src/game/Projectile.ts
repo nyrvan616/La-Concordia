@@ -1,4 +1,4 @@
-// import { Graphics } from "pixi.js";
+import { Graphics } from "pixi.js";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
 
@@ -7,8 +7,10 @@ export class Projectile extends PhysicsContainer {
     private static readonly MOVE_SPEED = 500;
     private static readonly WIDTH = 9;
     private static readonly HEIGHT = 16;
+    public damage = 50;
+
     private projectile: StateAnimation;
-    // private hitBox: Graphics;
+    private hitBox: Graphics;
 
 
     constructor() {
@@ -23,17 +25,17 @@ export class Projectile extends PhysicsContainer {
         ], 0.1, true, Projectile.WIDTH, Projectile.HEIGHT, { x: 0.5, y: 0.5 });
         this.projectile.scale.set(3);
 
-        // this.hitBox = new Graphics();
-        // this.hitBox.beginFill(0xFF00FF, 0.3);
-        // this.hitBox.drawRect(0, 0, Projectile.WIDTH, Projectile.HEIGHT);
-        // this.hitBox.endFill();
-        // this.hitBox.position.x = this.projectile.position.x - Projectile.WIDTH / 2;
-        // this.hitBox.position.y = this.projectile.position.y - Projectile.HEIGHT / 2;
+        this.hitBox = new Graphics();
+        this.hitBox.beginFill(0xFFFF00, 0.3);
+        this.hitBox.drawRect(0, 0, Projectile.WIDTH, Projectile.HEIGHT);
+        this.hitBox.endFill();
+        this.hitBox.position.x = this.projectile.position.x - Projectile.WIDTH / 2;
+        this.hitBox.position.y = this.projectile.position.y - Projectile.HEIGHT / 2;
 
 
     
 
-        // this.addChild(this.hitBox);
+        this.addChild(this.hitBox);
         this.addChild(this.projectile);
         this.projectile.playState('projectile', true);
     }

@@ -4,8 +4,8 @@ import { SceneBase } from "./SceneBase";
 import { Group } from "tweedle.js";
 
 export namespace SceneManager {
-    export const WIDTH = 1920/2;
-    export const HEIGHT = 1080;
+    export const WIDTH = 940;
+    export const HEIGHT = 1400;
     let currentScene: SceneBase;
     let app: Application;
 

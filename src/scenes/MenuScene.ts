@@ -1,22 +1,42 @@
-import { Texture } from "pixi.js";
+import { Container, Texture, TilingSprite } from "pixi.js";
 import { Button } from "../utils/Button";
 import { SceneBase } from "../utils/SceneBase";
 import { SceneManager } from "../utils/SceneManager";
 import { SceneTest } from "./SceneTest";
 
 export class MenuScene extends SceneBase {
+    private world: Container;
+    private background: TilingSprite;
+    // private startBTN: Button;
+    // private optionsBTN: Button;
+    // private creditsBTN: Button;
 
     constructor() {
         super();
+        
+        this.world = new Container();
+        this.world.position.set(0);
+        
+        this.background = new TilingSprite(Texture.from('UI/background/Window.png'),
+        SceneManager.WIDTH,
+        SceneManager.HEIGHT);
+        this.background.position = this.world.position;
+
+        //this.background.tileScale.set(3.9, 3.52);
+
+
         const btn = new Button(
             Texture.from('buttonContinueDefault'),
             Texture.from('buttonContinueDown'),
             Texture.from('buttonContinueOver'),
             goToGame
         );
-        this.x = SceneManager.WIDTH/2;
-        this.y = SceneManager.HEIGHT/2;
-        this.addChild(btn);
+        btn.x = SceneManager.WIDTH/2;
+        btn.y = SceneManager.HEIGHT/2;
+
+        this.world.addChild(this.background);
+        this.world.addChild(btn);
+        this.addChild(this.world);
 
     
     }
