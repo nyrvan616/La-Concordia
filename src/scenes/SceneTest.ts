@@ -1,5 +1,4 @@
-import { Container, Texture, TilingSprite } from "pixi.js";
-//import { IUpdateable } from "../utils/IUpdateable";
+import { Text, Container, Texture, TilingSprite, TextStyle } from "pixi.js";
 import { PlayerSpaceShip } from "../game/PlayerSpaceShip";
 import { EnemySpaceShip } from "../game/EnemySpaceShip";
 import { SceneManager } from "../utils/SceneManager";
@@ -12,12 +11,17 @@ export class SceneTest extends SceneBase {
     private playerSpaceShip: PlayerSpaceShip;
     private enemySpaceShip: EnemySpaceShip;
     private timePassed: number = 0;
+    private textPlayerHealth: Text;
 
     constructor() {
         super();
         this.world = new Container();
 
-        this.background = new TilingSprite(Texture.from('backgrounds/River/PNG/background.png'), SceneManager.WIDTH, SceneManager.HEIGHT);
+        this.background = new TilingSprite(
+            Texture.from('backgrounds/River/PNG/background.png'),
+            SceneManager.WIDTH,
+            SceneManager.HEIGHT);
+
         this.background.tileScale.set(3.9, 3.52);
         this.addChild(this.background);
 
@@ -30,6 +34,16 @@ export class SceneTest extends SceneBase {
         this.world.addChild(this.enemySpaceShip);
 
         this.addChild(this.world);
+
+        const textStyle = new TextStyle({
+            fill: "#ffffff",
+            fontFamily: "Block Stock",
+            fontSize: 70
+        });
+
+        this.textPlayerHealth = new Text("HEALTH: " + this.playerSpaceShip.HEALTH , textStyle);
+        this. textPlayerHealth.y = 200;
+        this.world.addChild(this.textPlayerHealth);
     }
     
     update(deltaTime: number, _deltaFrame?: number): void {
@@ -44,25 +58,23 @@ export class SceneTest extends SceneBase {
         this.background.tilePosition.y = this.world.position.y;
 
         const colision = checkCollision(this.playerSpaceShip, this.enemySpaceShip);
-        if(colision){
-            console.log("colision");
-            //el playerSpaceShip pierde vida
+        if(colision ){
+            if(this.playerSpaceShip.isVulnerable){
             this.playerSpaceShip.HEALTH -= 10;
+            }
             this.enemySpaceShip.HEALTH -= 10;
-            
-            //el playerSpaceShip se vuelve invulnerable por 3 segundos
             this.playerSpaceShip.isVulnerable = false;
             this.playerSpaceShip.selectAnimation('invulnerable',  true);
-            this.enemySpaceShip.selectAnimation('damage', true);
+            this.enemySpaceShip .selectAnimation('damage', true);
 
-            //wait3seconds
             setTimeout(() => {
                 this.playerSpaceShip.isVulnerable = true;
                 this.playerSpaceShip.selectAnimation('idle',  true);
-                console.log(this.playerSpaceShip.HEALTH);
                 this.enemySpaceShip.selectAnimation('idle',  true);
             }, 3000);
         }
+
+        this.textPlayerHealth.text = "HEALTH: " + this.playerSpaceShip.HEALTH
 
     }
 

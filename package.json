@@ -9,6 +9,7 @@
   "dependencies": {
     "@pixi/particle-emitter": "^5.0.8",
     "@pixi/sound": "^4.4.1",
+    "pixi-webfont-loader": "^1.0.3",
     "pixi.js": "^6.5.10",
     "tweedle.js": "^2.1.0"
   },

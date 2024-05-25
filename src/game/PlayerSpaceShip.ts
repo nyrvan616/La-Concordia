@@ -27,10 +27,10 @@ export class PlayerSpaceShip extends PhysicsContainer {
         ], 0.1, true, PlayerSpaceShip.PLAYER_WIDTH, PlayerSpaceShip.PLAYER_HEIGHT, { x: 0.5, y: 0.5 });
 
         this.playerSpaceShip.addState('invulnerable', [
-        'spaceShips/friendly/Nairan/Destruction/PNGs/Nairan - Dreadnought -  Destruction.png~1/17.png',
-        'spaceShips/friendly/Nairan/Weapons/PNGs/Nairan - Dreadnought - Weapons.png~1/19.png'
+            'spaceShips/friendly/Nairan/Destruction/PNGs/Nairan - Dreadnought -  Destruction.png~1/17.png',
+            'spaceShips/friendly/Nairan/Weapons/PNGs/Nairan - Dreadnought - Weapons.png~1/19.png'
         ], 0.1, true, PlayerSpaceShip.PLAYER_WIDTH, PlayerSpaceShip.PLAYER_HEIGHT, { x: 0.5, y: 0.5 });
-        
+
         this.playerSpaceShipEngineEffect = new StateAnimation();
         this.playerSpaceShipEngineEffect.addState('engineOn', [
             'spaceShips/friendly/Nairan/Engine Effects/PNGs/Nairan - Dreadnought - Engine.png~1/0.png',
@@ -42,7 +42,7 @@ export class PlayerSpaceShip extends PhysicsContainer {
             'spaceShips/friendly/Nairan/Engine Effects/PNGs/Nairan - Dreadnought - Engine.png~1/6.png',
             'spaceShips/friendly/Nairan/Engine Effects/PNGs/Nairan - Dreadnought - Engine.png~1/7.png'
         ], 0.1, true, PlayerSpaceShip.PLAYER_WIDTH, PlayerSpaceShip.PLAYER_HEIGHT, { x: 0.5, y: 0.4 });
-    
+
 
         this.playerSpaceShipDamaged = new StateAnimation();
         this.playerSpaceShipDamaged.addState('damage', [
@@ -59,7 +59,7 @@ export class PlayerSpaceShip extends PhysicsContainer {
         this.hitBox.endFill();
         this.hitBox.position.x = this.playerSpaceShip.position.x - PlayerSpaceShip.PLAYER_WIDTH / 2;
         this.hitBox.position.y = this.playerSpaceShip.position.y - PlayerSpaceShip.PLAYER_HEIGHT / 2;
-    
+
 
         this.addChild(this.hitBox);
         this.addChild(this.playerSpaceShip);
@@ -79,7 +79,7 @@ export class PlayerSpaceShip extends PhysicsContainer {
     }
 
     //Metodos
-    public shoot() {        
+    public shoot() {
         const projectile = new Projectile();
         projectile.position.x = this.position.x;
         projectile.position.y = this.position.y - PlayerSpaceShip.PLAYER_HEIGHT / 2;
@@ -94,7 +94,7 @@ export class PlayerSpaceShip extends PhysicsContainer {
         }
     }
 
-    public selectAnimation(stateName: string, restartAnim:boolean){
+    public selectAnimation(stateName: string, restartAnim: boolean) {
         this.playerSpaceShip.playState(stateName, restartAnim);
     }
 
@@ -103,7 +103,7 @@ export class PlayerSpaceShip extends PhysicsContainer {
         this.playerSpaceShip.update(deltaMS / (1000 / 60));
         this.playerSpaceShipEngineEffect.update(deltaMS / (1000 / 60));
         this.playerSpaceShipDamaged.update(deltaMS / (1000 / 60));
-        
+
         for (const projectile of this.projectiles) {
             projectile.update(deltaMS);
         }
@@ -112,19 +112,17 @@ export class PlayerSpaceShip extends PhysicsContainer {
         this.speed.y = 0;
 
         //CONTROLS
-        switch (true) {
-            case Keyboard.state.get("ArrowUp"):
-                this.speed.y = -PlayerSpaceShip.MOVE_SPEED;
-                break;
-            case Keyboard.state.get("ArrowDown"):
-                this.speed.y = PlayerSpaceShip.MOVE_SPEED;
-                break;
-            case Keyboard.state.get("ArrowRight"):
-                this.speed.x = PlayerSpaceShip.MOVE_SPEED;
-                break;
-            case Keyboard.state.get("ArrowLeft"):
-                this.speed.x = -PlayerSpaceShip.MOVE_SPEED;
-                break;
+        if (Keyboard.state.get("ArrowUp")) {
+            this.speed.y = -PlayerSpaceShip.MOVE_SPEED;
+        }
+        if (Keyboard.state.get("ArrowDown")) {
+            this.speed.y = PlayerSpaceShip.MOVE_SPEED
+        }
+        if (Keyboard.state.get("ArrowRight")) {
+            this.speed.x = PlayerSpaceShip.MOVE_SPEED;
+        }
+        if (Keyboard.state.get("ArrowLeft")) {
+            this.speed.x = -PlayerSpaceShip.MOVE_SPEED;
         }
 
         if (this.speed.x !== 0 || this.speed.y !== 0) {
@@ -134,41 +132,38 @@ export class PlayerSpaceShip extends PhysicsContainer {
 
         }
 
-        if (this.isVulnerable == false){
+        if (this.isVulnerable == false) {
             this.playerSpaceShipDamaged.visible = true;
         } else {
             this.playerSpaceShipDamaged.visible = false;
         }
-
-
-    
     }
-        public getHitBox(): Rectangle {
+    public getHitBox(): Rectangle {
         return this.hitBox.getBounds();
-        }
+    }
 
-        //ESTO NO TIENE UTILIDAD AÚN
-        public colisionDamage(overlap: Rectangle, objects: ObservablePoint<any>) {
-            if (overlap.width < overlap.height){
-                if (this.x > objects.x && this.isVulnerable == true){
-                    this.HEALTH -= 10;
-                    console.log(this.HEALTH);
-                } else if (this.x < objects.x){
-                    this.HEALTH -= 10;
-                    console.log('Player Health: ', this.HEALTH);
-                }
-            
-            } else {
-                if (this.y > objects.y){
-                    this.HEALTH -= 10;
-                    console.log(this.HEALTH);
-                } else if (this.y < objects.y){
-                    this.HEALTH -= 10;
-                    console.log('Player Health', this.HEALTH);
+    //ESTO NO TIENE UTILIDAD AÚN
+    public colisionDamage(overlap: Rectangle, objects: ObservablePoint<any>) {
+        if (overlap.width < overlap.height) {
+            if (this.x > objects.x && this.isVulnerable == true) {
+                this.HEALTH -= 10;
+                console.log(this.HEALTH);
+            } else if (this.x < objects.x) {
+                this.HEALTH -= 10;
+                console.log('Player Health: ', this.HEALTH);
+            }
+
+        } else {
+            if (this.y > objects.y) {
+                this.HEALTH -= 10;
+                console.log(this.HEALTH);
+            } else if (this.y < objects.y) {
+                this.HEALTH -= 10;
+                console.log('Player Health', this.HEALTH);
             }
         }
 
-        
+
     }
 
 }

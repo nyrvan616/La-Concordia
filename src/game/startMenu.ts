@@ -7,10 +7,6 @@ import { SceneManager } from "../utils/SceneManager";
 export class startMenu extends SceneBase {
     private world: Container;
     private background: StateAnimation;
-    private textBox: StateAnimation;
-    // private startBTN: Button;
-    // private optionsBTN: Button;
-    // private informationBTN: Button;
 
     constructor() {
         super();
@@ -23,10 +19,6 @@ export class startMenu extends SceneBase {
         'UI/background/Window.png'
         ], 0, true, SceneManager.WIDTH, SceneManager.HEIGHT, {x: 0.5, y: 0.5});
         this.background.position = this.world.position;
-
-        // this.textBox
-
-        this.textBox = new StateAnimation();
     }
 
     public update(){

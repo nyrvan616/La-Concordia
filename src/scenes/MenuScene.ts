@@ -7,10 +7,6 @@ import { SceneTest } from "./SceneTest";
 export class MenuScene extends SceneBase {
     private world: Container;
     private background: TilingSprite;
-    // private startBTN: Button;
-    // private optionsBTN: Button;
-    // private creditsBTN: Button;
-
     constructor() {
         super();
         
@@ -21,9 +17,6 @@ export class MenuScene extends SceneBase {
         SceneManager.WIDTH,
         SceneManager.HEIGHT);
         this.background.position = this.world.position;
-
-        //this.background.tileScale.set(3.9, 3.52);
-
 
         const btn = new Button(
             Texture.from('buttonContinueDefault'),
