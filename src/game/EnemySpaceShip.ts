@@ -1,22 +1,18 @@
-import { Graphics, ObservablePoint, Rectangle } from "pixi.js";
-// import { Keyboard } from "../utils/Keyboard";
+import { Graphics, Rectangle } from "pixi.js";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
-// import { Projectile } from "./Projectile";
-
 
 export class EnemySpaceShip extends PhysicsContainer {
     private static readonly MOVE_SPEED = 350;
     private static readonly ENEMY_WIDTH = 128;
     private static readonly ENEMY_HEIGHT = 128;
-    public HEALTH = 100;
+    public HEALTH: number = 100;
 
     private enemySpaceShipEngineEffect: StateAnimation;
     private enemySpaceShipDamaged: StateAnimation;
     private hitBox: Graphics;
     private enemySpaceShip: StateAnimation;
-    // private projectiles: Projectile[] = [];
-    // private isShooting: boolean = false;
+    private isVulnerable: boolean = true;
     
     constructor() {
         super();
@@ -24,7 +20,10 @@ export class EnemySpaceShip extends PhysicsContainer {
         this.enemySpaceShip.addState('idle', [
             'spaceShips/enemies/Nautolan/Designs - Base/PNGs/Nautolan Ship - Dreadnought - Base.png'
         ], 0.1, true, EnemySpaceShip.ENEMY_WIDTH, EnemySpaceShip.ENEMY_HEIGHT, { x: 0.5, y: 0.5 });
-        
+        this.enemySpaceShip.addState('damage', [
+            'spaceShips/enemies/Nautolan/Designs - Base/PNGs/Nautolan Ship - Dreadnought - Base.png',
+            'spaceShips/enemies/Nautolan/Engine Effects/PNGs/Nautolan Ship - Dreadnought - destruction~1/3.png',
+        ], 0.1, true, EnemySpaceShip.ENEMY_WIDTH, EnemySpaceShip.ENEMY_HEIGHT, { x: 0.5, y: 0.5 });
 
         this.enemySpaceShip.rotation = Math.PI;
         
@@ -39,8 +38,11 @@ export class EnemySpaceShip extends PhysicsContainer {
 
         this.enemySpaceShipDamaged = new StateAnimation();
         this.enemySpaceShipDamaged.addState('damage', [
-            'spaceShips/enemies/Nautolan/Designs - Base/PNGs/Nautolan Ship - Dreadnought - Base.png',
-            'spaceShips/enemies/Nautolan/Engine Effects/PNGs/Nautolan Ship - Dreadnought - destruction~1/3.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/08.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/09.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/10.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/11.png'
+            
         ], 0.1, true, EnemySpaceShip.ENEMY_WIDTH, EnemySpaceShip.ENEMY_HEIGHT, { x: 0.5, y: 0.5 });
         this.enemySpaceShipDamaged.rotation = Math.PI;
 
@@ -62,8 +64,6 @@ export class EnemySpaceShip extends PhysicsContainer {
         this.enemySpaceShipEngineEffect.playState('engineOn', true);
         this.enemySpaceShipDamaged.playState('damage', true);
 
-
-        // this.enemySpaceShipDamaged.visible = false;
         this.enemySpaceShipEngineEffect.visible = true;
 
         this.hitBox.visible = false;
@@ -89,10 +89,17 @@ export class EnemySpaceShip extends PhysicsContainer {
     
         }
 
-        if (this.HEALTH = 0){
+        if (this.HEALTH == 0){
             this.enemySpaceShip.destroy();
             this.enemySpaceShipDamaged.destroy();
             this.enemySpaceShipEngineEffect.destroy();
+            this.hitBox.destroy();
+        }
+
+        if (this.isVulnerable == false) {
+            this.enemySpaceShipDamaged.visible = true;
+        } else {
+            this.enemySpaceShipDamaged.visible = false;
         }
     }
 
@@ -100,26 +107,30 @@ export class EnemySpaceShip extends PhysicsContainer {
         return this.hitBox.getBounds();
     }
 
-     public colisionDamage(overlap: Rectangle, objects: ObservablePoint<any>) {
-        if (overlap.width < overlap.height){
-            if (this.x > objects.x){
-                this.HEALTH -= 10;
-                this.enemySpaceShipDamaged.visible = true;
-            } else if (this.x < objects.x){
-                this.HEALTH -= 10;
-                console.log('Enemy Health', this.HEALTH);
-                this.enemySpaceShipDamaged.playState('damage', true);
-                this.enemySpaceShipDamaged.visible = true;
-            }
-        
-        } else {
-            if (this.y > objects.y){
-                this.HEALTH -= 10;
-                this.enemySpaceShipDamaged.playState('damage', true);
-            } else if (this.y < objects.y){
-                this.HEALTH -= 10;
-                console.log('Enemy Health: ', this.HEALTH);
+
+public shipCollisionDamage(){
+    if(this.isVulnerable){
+        this.HEALTH -= 10;
+        this.isVulnerable = false;
+        this.selectAnimation('damage',  true);
+
+        setTimeout(() => {
+            this.isVulnerable = true;
+            this.selectAnimation('idle',  true);
+        }, 3000);
         }
+}
+
+public projectileCollisionDamage(damage: number){
+    if(this.isVulnerable){
+        this.HEALTH -= damage;
+        this.isVulnerable = false;
+        this.selectAnimation('damage',  true);
+
+        setTimeout(() => {
+            this.isVulnerable = true;
+            this.selectAnimation('idle',  true);
+        }, 1000);
     }
 }
 

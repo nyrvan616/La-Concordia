@@ -1,4 +1,4 @@
-import { Graphics, ObservablePoint, Rectangle } from "pixi.js";
+import { Graphics, Rectangle } from "pixi.js";
 import { Keyboard } from "../utils/Keyboard";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
@@ -14,9 +14,9 @@ export class PlayerSpaceShip extends PhysicsContainer {
     private playerSpaceShipEngineEffect: StateAnimation;
     private playerSpaceShipDamaged: StateAnimation;
     private hitBox: Graphics;
-    private projectiles: Projectile[] = [];
+    public projectiles: Projectile[] = [];
     private isShooting: boolean = false;
-    public HEALTH = 100;
+    public HEALTH: number = 100;
     public isVulnerable: boolean = true;
 
     constructor() {
@@ -142,28 +142,39 @@ export class PlayerSpaceShip extends PhysicsContainer {
         return this.hitBox.getBounds();
     }
 
-    //ESTO NO TIENE UTILIDAD AÚN
-    public colisionDamage(overlap: Rectangle, objects: ObservablePoint<any>) {
-        if (overlap.width < overlap.height) {
-            if (this.x > objects.x && this.isVulnerable == true) {
-                this.HEALTH -= 10;
-                console.log(this.HEALTH);
-            } else if (this.x < objects.x) {
-                this.HEALTH -= 10;
-                console.log('Player Health: ', this.HEALTH);
+    // ESTO NO TIENE UTILIDAD AÚN
+    // public colisionDamage(overlap: Rectangle, objects: ObservablePoint<any>) {
+    //     if (overlap.width < overlap.height) {
+    //         if (this.x > objects.x && this.isVulnerable == true) {
+    //             this.HEALTH -= 10;
+    //             console.log(this.HEALTH);
+    //         } else if (this.x < objects.x) {
+    //             this.HEALTH -= 10;
+    //             console.log('Player Health: ', this.HEALTH);
+    //         }
+
+    //     } else {
+    //         if (this.y > objects.y) {
+    //             this.HEALTH -= 10;
+    //             console.log(this.HEALTH);
+    //         } else if (this.y < objects.y) {
+    //             this.HEALTH -= 10;
+    //             console.log('Player Health', this.HEALTH);
+    //         }
+    //     }
+    // }
+
+    public shipCollisionDamage(){
+        if(this.isVulnerable){
+            this.HEALTH -= 10;
+            this.isVulnerable = false;
+            this.selectAnimation('invulnerable',  true);
+
+            setTimeout(() => {
+                this.isVulnerable = true;
+                this.selectAnimation('idle',  true);
+            }, 3000);
             }
-
-        } else {
-            if (this.y > objects.y) {
-                this.HEALTH -= 10;
-                console.log(this.HEALTH);
-            } else if (this.y < objects.y) {
-                this.HEALTH -= 10;
-                console.log('Player Health', this.HEALTH);
-            }
-        }
-
-
     }
 
 }

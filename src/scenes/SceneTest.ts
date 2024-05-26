@@ -12,6 +12,8 @@ export class SceneTest extends SceneBase {
     private enemySpaceShip: EnemySpaceShip;
     private timePassed: number = 0;
     private textPlayerHealth: Text;
+    private textEnemyHealth: Text;
+    public isVulnerable: boolean = true;
 
     constructor() {
         super();
@@ -29,6 +31,8 @@ export class SceneTest extends SceneBase {
         this.playerSpaceShip.position.set(SceneManager.WIDTH/2, 1000);
         this.world.addChild(this.playerSpaceShip);
 
+        
+
         this.enemySpaceShip = new EnemySpaceShip();
         this.enemySpaceShip.position.set(SceneManager.WIDTH/2, -1000);
         this.world.addChild(this.enemySpaceShip);
@@ -38,43 +42,44 @@ export class SceneTest extends SceneBase {
         const textStyle = new TextStyle({
             fill: "#ffffff",
             fontFamily: "Block Stock",
-            fontSize: 70
+            fontSize: 50
         });
 
-        this.textPlayerHealth = new Text("HEALTH: " + this.playerSpaceShip.HEALTH , textStyle);
+        this.textPlayerHealth = new Text("Player HEALTH: " + this.playerSpaceShip.HEALTH , textStyle);
         this. textPlayerHealth.y = 200;
         this.world.addChild(this.textPlayerHealth);
+
+        this.textEnemyHealth = new Text("Enemy HEALTH: " + this.enemySpaceShip.HEALTH , textStyle);
+        this. textPlayerHealth.y = 200;
+        this.world.addChild(this.textEnemyHealth);
     }
     
     update(deltaTime: number, _deltaFrame?: number): void {
         this.timePassed += deltaTime;
 
-        if (deltaTime)
-
         this.playerSpaceShip.update(deltaTime);
-        this.enemySpaceShip.update(deltaTime);
+        {this.enemySpaceShip.update(deltaTime);}
 
         this.world.position.y = -this.playerSpaceShip.position.y * this.worldTransform.a + SceneManager.HEIGHT / 1.15;
         this.background.tilePosition.y = this.world.position.y;
+        this.textPlayerHealth.position.y = this.playerSpaceShip.position.y - 1200;
+        this.textEnemyHealth.position.y = this.playerSpaceShip.position.y - 1100;
 
-        const colision = checkCollision(this.playerSpaceShip, this.enemySpaceShip);
-        if(colision ){
-            if(this.playerSpaceShip.isVulnerable){
-            this.playerSpaceShip.HEALTH -= 10;
-            }
-            this.enemySpaceShip.HEALTH -= 10;
-            this.playerSpaceShip.isVulnerable = false;
-            this.playerSpaceShip.selectAnimation('invulnerable',  true);
-            this.enemySpaceShip .selectAnimation('damage', true);
-
-            setTimeout(() => {
-                this.playerSpaceShip.isVulnerable = true;
-                this.playerSpaceShip.selectAnimation('idle',  true);
-                this.enemySpaceShip.selectAnimation('idle',  true);
-            }, 3000);
+        const spaceShipCollision = checkCollision(this.playerSpaceShip, this.enemySpaceShip);
+        if(spaceShipCollision){
+            this.playerSpaceShip.shipCollisionDamage();
+            this.enemySpaceShip.shipCollisionDamage();
         }
 
-        this.textPlayerHealth.text = "HEALTH: " + this.playerSpaceShip.HEALTH
+        this.textPlayerHealth.text = "Player HEALTH: " + this.playerSpaceShip.HEALTH;
+        this.textEnemyHealth.text = "Enemy HEALTH: " + this.enemySpaceShip.HEALTH;
+
+        for (const projectile of this.playerSpaceShip.projectiles){
+        const projectileCollision = checkCollision(this.enemySpaceShip, projectile);
+        if (projectileCollision){
+            this.enemySpaceShip.projectileCollisionDamage(projectile.damage)
+        }
+        }
 
     }
 

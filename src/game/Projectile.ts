@@ -1,4 +1,4 @@
-import { Graphics } from "pixi.js";
+import { Graphics, Rectangle } from "pixi.js";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
 
@@ -7,7 +7,7 @@ export class Projectile extends PhysicsContainer {
     private static readonly MOVE_SPEED = 500;
     private static readonly WIDTH = 9;
     private static readonly HEIGHT = 16;
-    public damage = 50;
+    public damage = 25;
 
     private projectile: StateAnimation;
     private hitBox: Graphics;
@@ -46,6 +46,10 @@ export class Projectile extends PhysicsContainer {
         this.projectile.update(deltaMS / (1000 / 60));
 
         this.speed.y -= Projectile.MOVE_SPEED * (deltaMS / 1000);
+    }
+
+    public getHitBox(): Rectangle {
+        return this.hitBox.getBounds();
     }
 
 }
