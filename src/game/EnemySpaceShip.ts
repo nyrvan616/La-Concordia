@@ -3,7 +3,7 @@ import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
 
 export class EnemySpaceShip extends PhysicsContainer {
-    private static readonly MOVE_SPEED = 350;
+    private static readonly MOVE_SPEED = 250;
     private static readonly ENEMY_WIDTH = 128;
     private static readonly ENEMY_HEIGHT = 128;
     public HEALTH: number = 100;
@@ -23,6 +23,20 @@ export class EnemySpaceShip extends PhysicsContainer {
         this.enemySpaceShip.addState('damage', [
             'spaceShips/enemies/Nautolan/Designs - Base/PNGs/Nautolan Ship - Dreadnought - Base.png',
             'spaceShips/enemies/Nautolan/Engine Effects/PNGs/Nautolan Ship - Dreadnought - destruction~1/3.png',
+        ], 0.1, true, EnemySpaceShip.ENEMY_WIDTH, EnemySpaceShip.ENEMY_HEIGHT, { x: 0.5, y: 0.5 });
+        this.enemySpaceShip.addState('destroyed', [
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/00.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/01.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/02.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/03.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/04.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/05.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/06.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/07.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/08.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/09.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/10.png',
+            'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/11.png',
         ], 0.1, true, EnemySpaceShip.ENEMY_WIDTH, EnemySpaceShip.ENEMY_HEIGHT, { x: 0.5, y: 0.5 });
 
         this.enemySpaceShip.rotation = Math.PI;
@@ -89,13 +103,6 @@ export class EnemySpaceShip extends PhysicsContainer {
     
         }
 
-        if (this.HEALTH == 0){
-            this.enemySpaceShip.destroy();
-            this.enemySpaceShipDamaged.destroy();
-            this.enemySpaceShipEngineEffect.destroy();
-            this.hitBox.destroy();
-        }
-
         if (this.isVulnerable == false) {
             this.enemySpaceShipDamaged.visible = true;
         } else {
@@ -130,7 +137,7 @@ public projectileCollisionDamage(damage: number){
         setTimeout(() => {
             this.isVulnerable = true;
             this.selectAnimation('idle',  true);
-        }, 1000);
+        }, 500);
     }
 }
 

@@ -3,6 +3,7 @@ import { Keyboard } from "../utils/Keyboard";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
 import { Projectile } from "./Projectile";
+import { SceneManager } from "../utils/SceneManager";
 
 
 export class PlayerSpaceShip extends PhysicsContainer {
@@ -115,9 +116,6 @@ export class PlayerSpaceShip extends PhysicsContainer {
         if (Keyboard.state.get("ArrowUp")) {
             this.speed.y = -PlayerSpaceShip.MOVE_SPEED;
         }
-        if (Keyboard.state.get("ArrowDown")) {
-            this.speed.y = PlayerSpaceShip.MOVE_SPEED
-        }
         if (Keyboard.state.get("ArrowRight")) {
             this.speed.x = PlayerSpaceShip.MOVE_SPEED;
         }
@@ -142,31 +140,9 @@ export class PlayerSpaceShip extends PhysicsContainer {
         return this.hitBox.getBounds();
     }
 
-    // ESTO NO TIENE UTILIDAD AÚN
-    // public colisionDamage(overlap: Rectangle, objects: ObservablePoint<any>) {
-    //     if (overlap.width < overlap.height) {
-    //         if (this.x > objects.x && this.isVulnerable == true) {
-    //             this.HEALTH -= 10;
-    //             console.log(this.HEALTH);
-    //         } else if (this.x < objects.x) {
-    //             this.HEALTH -= 10;
-    //             console.log('Player Health: ', this.HEALTH);
-    //         }
-
-    //     } else {
-    //         if (this.y > objects.y) {
-    //             this.HEALTH -= 10;
-    //             console.log(this.HEALTH);
-    //         } else if (this.y < objects.y) {
-    //             this.HEALTH -= 10;
-    //             console.log('Player Health', this.HEALTH);
-    //         }
-    //     }
-    // }
-
     public shipCollisionDamage(){
         if(this.isVulnerable){
-            this.HEALTH -= 10;
+            this.HEALTH -= 25;
             this.isVulnerable = false;
             this.selectAnimation('invulnerable',  true);
 
@@ -176,5 +152,4 @@ export class PlayerSpaceShip extends PhysicsContainer {
             }, 3000);
             }
     }
-
 }

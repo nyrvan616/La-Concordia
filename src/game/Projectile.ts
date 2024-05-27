@@ -7,7 +7,7 @@ export class Projectile extends PhysicsContainer {
     private static readonly MOVE_SPEED = 500;
     private static readonly WIDTH = 9;
     private static readonly HEIGHT = 16;
-    public damage = 25;
+    public damage = 90;
 
     private projectile: StateAnimation;
     private hitBox: Graphics;

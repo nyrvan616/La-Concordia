@@ -2,9 +2,9 @@ import { Container, TextStyle, Texture, TilingSprite, Text } from "pixi.js";
 import { Button } from "../utils/Button";
 import { SceneBase } from "../utils/SceneBase";
 import { SceneManager } from "../utils/SceneManager";
-import { SceneTest } from "./SceneTest";
+import { Level1 } from "./Level1";
 
-export class SceneStartMenu extends SceneBase {
+export class StartMenuScene extends SceneBase {
     private WIDTH = SceneManager.WIDTH;
     private HEIGHT = SceneManager.HEIGHT;
     private world: Container;
@@ -66,11 +66,7 @@ export class SceneStartMenu extends SceneBase {
 
         this.startGameSection.addChild(this.startGameSection, this.startGameTextBox, this.startGameBTN, startGameText)
         this.world.addChild(this.startMenuBackground, this.startGameSection);
-        this.addChild(this.world);
-
-        console.log("world: ", this.startGameSection.position, this.startGameSection.width, this.startGameSection.height)
-
-    
+        this.addChild(this.world);    
     }
     
     public update(): void {
@@ -79,5 +75,5 @@ export class SceneStartMenu extends SceneBase {
 }
 
 function goToGame(){
-    SceneManager.changeScene(new SceneTest());
+    SceneManager.changeScene(new Level1());
 }
