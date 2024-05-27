@@ -3,8 +3,6 @@ import { Keyboard } from "../utils/Keyboard";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { StateAnimation } from "./StateAnimation";
 import { Projectile } from "./Projectile";
-import { SceneManager } from "../utils/SceneManager";
-
 
 export class PlayerSpaceShip extends PhysicsContainer {
     private static readonly MOVE_SPEED = 350;
