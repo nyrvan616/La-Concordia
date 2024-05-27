@@ -15,7 +15,7 @@ export class VictoryScene extends SceneBase {
 
     constructor() {
         super();
-        
+
         this.world = new Container();
         this.world.position.set(0);
 
@@ -29,8 +29,8 @@ export class VictoryScene extends SceneBase {
 
         //START GAME BUTTON
         this.restartGameSection = new Container();
-        this.restartGameSection.x = this.victoryMenuBackground.width/4;
-        this.restartGameSection.y = this.victoryMenuBackground.height/4;
+        this.restartGameSection.x = this.victoryMenuBackground.width / 4;
+        this.restartGameSection.y = this.victoryMenuBackground.height / 4;
 
         this.restartGameTextBox = new TilingSprite(
             Texture.from('UI/textBox/Table_02.png'),
@@ -40,7 +40,7 @@ export class VictoryScene extends SceneBase {
         this.restartGameTextBox.scale.set(2);
         this.restartGameTextBox.anchor.set(0.5);
         this.restartGameTextBox.position = this.restartGameSection.position;
-        
+
         this.restartGameBTN = new Button(
             Texture.from('UI/buttons/Inactive/Ok_BTN.png'),
             Texture.from('UI/buttons/Active/Ok_BTN.png'),
@@ -48,8 +48,8 @@ export class VictoryScene extends SceneBase {
             goToGame
         );
         this.restartGameBTN.pivot.set(0.5);
-        this.restartGameBTN.position.set(this.restartGameTextBox.position.x/8, this.restartGameTextBox.y);
-        this.restartGameBTN.width =  this.restartGameTextBox.height * 1.2;
+        this.restartGameBTN.position.set(this.restartGameTextBox.position.x / 8, this.restartGameTextBox.y);
+        this.restartGameBTN.width = this.restartGameTextBox.height * 1.2;
         this.restartGameBTN.height = this.restartGameTextBox.height * 1.2;
 
         const textStyle = new TextStyle({
@@ -59,26 +59,26 @@ export class VictoryScene extends SceneBase {
         });
 
         const restartGameText = new Text("Retry?", textStyle);
-        
+
         restartGameText.anchor.set(0.5);
-        restartGameText.position.x = this.restartGameBTN.x + restartGameText.width/2 + this.restartGameBTN.width * 0.75;
+        restartGameText.position.x = this.restartGameBTN.x + restartGameText.width / 2 + this.restartGameBTN.width * 0.75;
         restartGameText.position.y = this.restartGameBTN.y;
 
         const defeatText = new Text("You Win!", textStyle);
         defeatText.anchor.set(0.5);
-        defeatText.position.x = SceneManager.WIDTH/4;
+        defeatText.position.x = SceneManager.WIDTH / 4;
         defeatText.position.y = restartGameText.y - 150;
 
         this.restartGameSection.addChild(defeatText, this.restartGameSection, this.restartGameTextBox, this.restartGameBTN, restartGameText)
         this.world.addChild(this.victoryMenuBackground, this.restartGameSection);
-        this.addChild(this.world);    
+        this.addChild(this.world);
     }
-    
+
     public update(): void {
     }
 
 }
 
-function goToGame(){
+function goToGame() {
     SceneManager.changeScene(new Level1());
 }

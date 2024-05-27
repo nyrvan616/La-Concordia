@@ -31,13 +31,13 @@ export class Level1 extends SceneBase {
         this.addChild(this.background);
 
         this.playerSpaceShip = new PlayerSpaceShip();
-        this.playerSpaceShip.position.set(SceneManager.WIDTH/2, 1000);
+        this.playerSpaceShip.position.set(SceneManager.WIDTH / 2, 1000);
         this.world.addChild(this.playerSpaceShip);
 
         this.enemySpaceShips = [];
 
         let enemySpaceShip = new EnemySpaceShip();
-        enemySpaceShip.position.set(SceneManager.WIDTH/2, -1000);
+        enemySpaceShip.position.set(SceneManager.WIDTH / 2, -1000);
         this.world.addChild(enemySpaceShip);
         this.enemySpaceShips.push(enemySpaceShip);
 
@@ -49,76 +49,76 @@ export class Level1 extends SceneBase {
             fontSize: 35
         });
 
-        this.playerHealthText = new Text("Player HEALTH: " + this.playerSpaceShip.HEALTH , textStyle);
+        this.playerHealthText = new Text("Player HEALTH: " + this.playerSpaceShip.HEALTH, textStyle);
         this.world.addChild(this.playerHealthText);
 
         this.destroyedSpaceShipsText = new Text("Destroyed Spaceships: " + this.destroyedSpaceShips + "/10", textStyle);
         this.world.addChild(this.destroyedSpaceShipsText);
 
     }
-    
+
     update(deltaTime: number, _deltaFrame?: number): void {
         this.timePassed += deltaTime;
 
-        if (this.timePassed > 3000){
+        if (this.timePassed > 3000) {
             this.timePassed = 0;
             const enemySpaceShip = new EnemySpaceShip();
-            enemySpaceShip.position.set(Math.random()*SceneManager.WIDTH, this.playerSpaceShip.position.y - 1800);
+            enemySpaceShip.position.set(Math.random() * SceneManager.WIDTH, this.playerSpaceShip.position.y - 1800);
             this.world.addChild(enemySpaceShip);
             this.enemySpaceShips.push(enemySpaceShip);
         }
 
         this.playerSpaceShip.update(deltaTime);
 
-        for (let enemySpaceShip of this.enemySpaceShips){
-        enemySpaceShip.update(deltaTime);
-        const spaceShipCollision = checkCollision(this.playerSpaceShip, enemySpaceShip);
-        if(spaceShipCollision){
-            this.playerSpaceShip.shipCollisionDamage();
-            enemySpaceShip.shipCollisionDamage();
+        for (let enemySpaceShip of this.enemySpaceShips) {
+            enemySpaceShip.update(deltaTime);
+            const spaceShipCollision = checkCollision(this.playerSpaceShip, enemySpaceShip);
+            if (spaceShipCollision) {
+                this.playerSpaceShip.shipCollisionDamage();
+                enemySpaceShip.shipCollisionDamage();
+            }
+            for (const projectile of this.playerSpaceShip.projectiles) {
+                const projectileCollision = checkCollision(enemySpaceShip, projectile);
+                if (projectileCollision) {
+                    enemySpaceShip.projectileCollisionDamage(projectile.damage)
+                }
+            }
+
+            this.world.position.y = -this.playerSpaceShip.position.y * this.worldTransform.a + SceneManager.HEIGHT / 1.15;
+            this.background.tilePosition.y = this.world.position.y;
+            this.playerHealthText.position.y = this.playerSpaceShip.position.y - 1200;
+            this.destroyedSpaceShipsText.position.y = this.playerSpaceShip.position.y - 1100;
+
+            if (enemySpaceShip.getHitBox().top > SceneManager.HEIGHT) {
+                enemySpaceShip.destroy();
+            }
+
+            if (enemySpaceShip.HEALTH <= 0) {
+                enemySpaceShip.destroy();
+                this.destroyedSpaceShips += 1;
+            }
         }
-        for (const projectile of this.playerSpaceShip.projectiles){
-        const projectileCollision = checkCollision(enemySpaceShip, projectile);
-        if (projectileCollision){
-            enemySpaceShip.projectileCollisionDamage(projectile.damage)
-        }
-        }
-
-        this.world.position.y = -this.playerSpaceShip.position.y * this.worldTransform.a + SceneManager.HEIGHT / 1.15;
-        this.background.tilePosition.y = this.world.position.y;
-        this.playerHealthText.position.y = this.playerSpaceShip.position.y - 1200;
-        this.destroyedSpaceShipsText.position.y = this.playerSpaceShip.position.y - 1100;
-
-        if (enemySpaceShip.getHitBox().top > SceneManager.HEIGHT){
-            enemySpaceShip.destroy();
-        }
-
-        if (enemySpaceShip.HEALTH <= 0){
-            enemySpaceShip.destroy();
-            this.destroyedSpaceShips += 1;
-        }
-    }
-    if (this.destroyedSpaceShips >= 10){
-        const victoryScene = new VictoryScene();
-        SceneManager.changeScene(victoryScene);
-    }
-
-    if (this.playerSpaceShip.HEALTH <= 0){
-        const defeatScene = new DefeatScene();
-        SceneManager.changeScene(defeatScene);
-    }
-
-    this.enemySpaceShips = this.enemySpaceShips.filter((elem) => !elem.destroyed);
-
-    this.playerHealthText.text = "Player HEALTH: " + this.playerSpaceShip.HEALTH;
-    this.destroyedSpaceShipsText.text = "Destroyed Spaceships: " + this.destroyedSpaceShips + "/10"
-
-        if (this.playerSpaceShip.x + this.playerSpaceShip.width/4 > SceneManager.WIDTH){
-            this.playerSpaceShip.x = SceneManager.WIDTH - this.playerSpaceShip.width/4;
+        if (this.destroyedSpaceShips >= 10) {
+            const victoryScene = new VictoryScene();
+            SceneManager.changeScene(victoryScene);
         }
 
-        if (this.playerSpaceShip.x - this.playerSpaceShip.width/4 < 0){
-          this.playerSpaceShip.x = this.playerSpaceShip.width/4;
+        if (this.playerSpaceShip.HEALTH <= 0) {
+            const defeatScene = new DefeatScene();
+            SceneManager.changeScene(defeatScene);
+        }
+
+        this.enemySpaceShips = this.enemySpaceShips.filter((elem) => !elem.destroyed);
+
+        this.playerHealthText.text = "Player HEALTH: " + this.playerSpaceShip.HEALTH;
+        this.destroyedSpaceShipsText.text = "Destroyed Spaceships: " + this.destroyedSpaceShips + "/10"
+
+        if (this.playerSpaceShip.x + this.playerSpaceShip.width / 4 > SceneManager.WIDTH) {
+            this.playerSpaceShip.x = SceneManager.WIDTH - this.playerSpaceShip.width / 4;
+        }
+
+        if (this.playerSpaceShip.x - this.playerSpaceShip.width / 4 < 0) {
+            this.playerSpaceShip.x = this.playerSpaceShip.width / 4;
         }
     }
 

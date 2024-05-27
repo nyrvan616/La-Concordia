@@ -13,7 +13,7 @@ export class EnemySpaceShip extends PhysicsContainer {
     private hitBox: Graphics;
     private enemySpaceShip: StateAnimation;
     private isVulnerable: boolean = true;
-    
+
     constructor() {
         super();
         this.enemySpaceShip = new StateAnimation();
@@ -40,7 +40,7 @@ export class EnemySpaceShip extends PhysicsContainer {
         ], 0.1, true, EnemySpaceShip.ENEMY_WIDTH, EnemySpaceShip.ENEMY_HEIGHT, { x: 0.5, y: 0.5 });
 
         this.enemySpaceShip.rotation = Math.PI;
-        
+
         this.enemySpaceShipEngineEffect = new StateAnimation();
         this.enemySpaceShipEngineEffect.addState('engineOn', [
             'spaceShips/enemies/Nautolan/Engine Effects/PNGs/Nautolan Ship - Dreadnought - Engine Effect.png~1/4.png',
@@ -56,7 +56,7 @@ export class EnemySpaceShip extends PhysicsContainer {
             'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/09.png',
             'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/10.png',
             'spaceShips/enemies/Nautolan/Destruction/PNGs/Nautolan Ship - Dreadnought.png~1/11.png'
-            
+
         ], 0.1, true, EnemySpaceShip.ENEMY_WIDTH, EnemySpaceShip.ENEMY_HEIGHT, { x: 0.5, y: 0.5 });
         this.enemySpaceShipDamaged.rotation = Math.PI;
 
@@ -67,7 +67,7 @@ export class EnemySpaceShip extends PhysicsContainer {
         this.hitBox.endFill();
         this.hitBox.position.x = this.enemySpaceShip.position.x - EnemySpaceShip.ENEMY_WIDTH / 2;
         this.hitBox.position.y = this.enemySpaceShip.position.y - EnemySpaceShip.ENEMY_HEIGHT / 2;
-    
+
 
         this.addChild(this.hitBox);
         this.addChild(this.enemySpaceShip);
@@ -83,10 +83,10 @@ export class EnemySpaceShip extends PhysicsContainer {
         this.hitBox.visible = false;
     }
 
-    public selectAnimation(stateName: string, restartAnim:boolean){
+    public selectAnimation(stateName: string, restartAnim: boolean) {
         this.enemySpaceShip.playState(stateName, restartAnim);
     }
-    
+
     public override update(deltaMS: number) {
         super.update(deltaMS / 1000);
         this.enemySpaceShip.update(deltaMS / (1000 / 60));
@@ -94,13 +94,13 @@ export class EnemySpaceShip extends PhysicsContainer {
         this.enemySpaceShipDamaged.update(deltaMS / (1000 / 60));
 
         this.speed.x = 0;
-        
+
         this.speed.y = EnemySpaceShip.MOVE_SPEED;
         if (this.speed.x !== 0 || this.speed.y !== 0) {
             this.enemySpaceShipEngineEffect.visible = true;
         } else {
             this.enemySpaceShipEngineEffect.visible = false;
-    
+
         }
 
         if (this.isVulnerable == false) {
@@ -110,35 +110,35 @@ export class EnemySpaceShip extends PhysicsContainer {
         }
     }
 
-    public getHitBox(): Rectangle{
+    public getHitBox(): Rectangle {
         return this.hitBox.getBounds();
     }
 
 
-public shipCollisionDamage(){
-    if(this.isVulnerable){
-        this.HEALTH -= 10;
-        this.isVulnerable = false;
-        this.selectAnimation('damage',  true);
+    public shipCollisionDamage() {
+        if (this.isVulnerable) {
+            this.HEALTH -= 10;
+            this.isVulnerable = false;
+            this.selectAnimation('damage', true);
 
-        setTimeout(() => {
-            this.isVulnerable = true;
-            this.selectAnimation('idle',  true);
-        }, 3000);
+            setTimeout(() => {
+                this.isVulnerable = true;
+                this.selectAnimation('idle', true);
+            }, 3000);
         }
-}
-
-public projectileCollisionDamage(damage: number){
-    if(this.isVulnerable){
-        this.HEALTH -= damage;
-        this.isVulnerable = false;
-        this.selectAnimation('damage',  true);
-
-        setTimeout(() => {
-            this.isVulnerable = true;
-            this.selectAnimation('idle',  true);
-        }, 500);
     }
-}
+
+    public projectileCollisionDamage(damage: number) {
+        if (this.isVulnerable) {
+            this.HEALTH -= damage;
+            this.isVulnerable = false;
+            this.selectAnimation('damage', true);
+
+            setTimeout(() => {
+                this.isVulnerable = true;
+                this.selectAnimation('idle', true);
+            }, 500);
+        }
+    }
 
 }

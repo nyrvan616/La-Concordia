@@ -8,7 +8,6 @@ export class Projectile extends PhysicsContainer {
     private static readonly WIDTH = 9;
     private static readonly HEIGHT = 16;
     public damage = 90;
-
     private projectile: StateAnimation;
     private hitBox: Graphics;
 
@@ -31,9 +30,6 @@ export class Projectile extends PhysicsContainer {
         this.hitBox.endFill();
         this.hitBox.position.x = this.projectile.position.x - Projectile.WIDTH / 2;
         this.hitBox.position.y = this.projectile.position.y - Projectile.HEIGHT / 2;
-
-
-    
 
         this.addChild(this.hitBox);
         this.addChild(this.projectile);

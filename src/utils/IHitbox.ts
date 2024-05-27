@@ -1,10 +1,10 @@
 import { Rectangle } from "pixi.js";
 
 export interface IHitbox {
-    getHitBox():Rectangle;
+    getHitBox(): Rectangle;
 }
 
-export function checkCollision(objA:IHitbox, objB:IHitbox):Rectangle | null {
+export function checkCollision(objA: IHitbox, objB: IHitbox): Rectangle | null {
     const rA = objA.getHitBox();
     const rB = objB.getHitBox();
 
@@ -16,7 +16,7 @@ export function checkCollision(objA:IHitbox, objB:IHitbox):Rectangle | null {
     //"makes sense" significa que izquierda es izquierda y derecha es derecha
     const makesSenseHorizontal = rightMostLeft < leftMostRight;
     const makesSenseVertical = bottomMostTop < topMostBottom;
-    if (makesSenseHorizontal && makesSenseVertical){
+    if (makesSenseHorizontal && makesSenseVertical) {
         const retval = new Rectangle();
         retval.x = rightMostLeft;
         retval.y = bottomMostTop;

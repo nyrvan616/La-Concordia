@@ -1,3 +1,3 @@
-export interface IUpdateable{
-    update(deltaTime:number, deltaFrame?:number):void;
+export interface IUpdateable {
+    update(deltaTime: number, deltaFrame?: number): void;
 }

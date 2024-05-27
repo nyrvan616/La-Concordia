@@ -1,13 +1,13 @@
 import { Container, Sprite, Texture } from "pixi.js";
 
-export class Button extends Container{
-    private def:Texture;
-    private down:Texture;
-    private over:Texture;
-    private callback:Function;
-    private spr:Sprite;
+export class Button extends Container {
+    private def: Texture;
+    private down: Texture;
+    private over: Texture;
+    private callback: Function;
+    private spr: Sprite;
 
-    constructor(def:Texture, down:Texture, over:Texture, callback:Function){
+    constructor(def: Texture, down: Texture, over: Texture, callback: Function) {
         super();
 
         this.def = def;
@@ -18,7 +18,7 @@ export class Button extends Container{
         this.spr = Sprite.from(def);
         this.spr.anchor.set(0.5);
         this.addChild(this.spr);
-        
+
         this.spr.interactive = true;
         this.spr.on("mousedown", this.onMouseDown, this);
         this.spr.on("mouseup", this.onMouseUp, this);
@@ -27,24 +27,20 @@ export class Button extends Container{
 
     }
 
-    private onMouseDown(){
-        console.log("Mouse Down");
+    private onMouseDown() {
         this.spr.texture = this.down;
     };
 
-    private onMouseUp(){
-        console.log("Mouse Up");
+    private onMouseUp() {
         this.callback();
         this.spr.texture = this.over;
     };
 
-    private onMouseOver(){
-        console.log("Mouse Over");
+    private onMouseOver() {
         this.spr.texture = this.over;
     };
 
-    private onMouseOut(){
-        console.log("Mouse Out");
+    private onMouseOut() {
         this.spr.texture = this.def;
     };
 }

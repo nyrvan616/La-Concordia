@@ -6,5 +6,5 @@ export const assets = [
     { name: "UI-1", url: "./spriteSheets/UI/UI-1.json" },
 
     //Fuentes
-    { url: "./font/Block Stock.ttf", name: "Block Stock"}
+    { url: "./font/Block Stock.ttf", name: "Block Stock" }
 ];

@@ -1,4 +1,4 @@
-import {  Loader } from 'pixi.js';
+import { Loader } from 'pixi.js';
 import { assets } from './assets';
 import { SceneManager } from './utils/SceneManager';
 import { StartMenuScene } from './scenes/StartMenuScene';

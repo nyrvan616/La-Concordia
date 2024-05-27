@@ -15,7 +15,7 @@ export class StartMenuScene extends SceneBase {
 
     constructor() {
         super();
-        
+
         this.world = new Container();
         this.world.position.set(0);
 
@@ -29,8 +29,8 @@ export class StartMenuScene extends SceneBase {
 
         //START GAME BUTTON
         this.startGameSection = new Container();
-        this.startGameSection.x = this.startMenuBackground.width/4;
-        this.startGameSection.y = this.startMenuBackground.height/4;
+        this.startGameSection.x = this.startMenuBackground.width / 4;
+        this.startGameSection.y = this.startMenuBackground.height / 4;
 
         this.startGameTextBox = new TilingSprite(
             Texture.from('UI/textBox/Table_02.png'),
@@ -40,7 +40,7 @@ export class StartMenuScene extends SceneBase {
         this.startGameTextBox.scale.set(2);
         this.startGameTextBox.anchor.set(0.5);
         this.startGameTextBox.position = this.startGameSection.position;
-        
+
         this.startGameBTN = new Button(
             Texture.from('UI/buttons/Inactive/Play_BTN.png'),
             Texture.from('UI/buttons/Active/Play_BTN.png'),
@@ -48,8 +48,8 @@ export class StartMenuScene extends SceneBase {
             goToGame
         );
         this.startGameBTN.pivot.set(0.5);
-        this.startGameBTN.position.set(this.startGameTextBox.position.x/8, this.startGameTextBox.y);
-        this.startGameBTN.width =  this.startGameTextBox.height * 1.2;
+        this.startGameBTN.position.set(this.startGameTextBox.position.x / 8, this.startGameTextBox.y);
+        this.startGameBTN.width = this.startGameTextBox.height * 1.2;
         this.startGameBTN.height = this.startGameTextBox.height * 1.2;
 
         const textStyle = new TextStyle({
@@ -59,21 +59,21 @@ export class StartMenuScene extends SceneBase {
         });
 
         const startGameText = new Text("Start", textStyle);
-        
+
         startGameText.anchor.set(0.5);
-        startGameText.position.x = this.startGameBTN.x + startGameText.width/2 + this.startGameBTN.width * 0.75;
+        startGameText.position.x = this.startGameBTN.x + startGameText.width / 2 + this.startGameBTN.width * 0.75;
         startGameText.position.y = this.startGameBTN.y;
 
         this.startGameSection.addChild(this.startGameSection, this.startGameTextBox, this.startGameBTN, startGameText)
         this.world.addChild(this.startMenuBackground, this.startGameSection);
-        this.addChild(this.world);    
+        this.addChild(this.world);
     }
-    
+
     public update(): void {
     }
 
 }
 
-function goToGame(){
+function goToGame() {
     SceneManager.changeScene(new Level1());
 }

@@ -138,16 +138,16 @@ export class PlayerSpaceShip extends PhysicsContainer {
         return this.hitBox.getBounds();
     }
 
-    public shipCollisionDamage(){
-        if(this.isVulnerable){
+    public shipCollisionDamage() {
+        if (this.isVulnerable) {
             this.HEALTH -= 25;
             this.isVulnerable = false;
-            this.selectAnimation('invulnerable',  true);
+            this.selectAnimation('invulnerable', true);
 
             setTimeout(() => {
                 this.isVulnerable = true;
-                this.selectAnimation('idle',  true);
+                this.selectAnimation('idle', true);
             }, 3000);
-            }
+        }
     }
 }
